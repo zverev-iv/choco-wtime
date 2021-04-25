@@ -1,65 +1,62 @@
 ﻿# IMPORTANT: Before releasing this package, copy/paste the next 2 lines into PowerShell to remove all comments from this file:
-#   $f='c:\path\to\thisFile.ps1'
-#   gc $f | ? {$_ -notmatch "^\s*#"} | % {$_ -replace '(^.*?)\s*?[^``]#.*','$1'} | Out-File $f+".~" -en utf8; mv -fo $f+".~" $f
+#   $f="c:\path\to\thisFile.ps1"
+#   gc $f | ? {$_ -notmatch "^\s*#"} | % {$_ -replace "(^.*?)\s*?[^``]#.*","$1"} | Out-File $f+".~" -en utf8; mv -fo $f+".~" $f
 
 # 1. See the _TODO.md that is generated top level and read through that
 # 2. Follow the documentation below to learn how to create a package for the package type you are creating.
-# 3. In Chocolatey scripts, ALWAYS use absolute paths - $toolsDir gets you to the package's tools directory.
-$ErrorActionPreference = 'Stop'; # stop on all errors
-$toolsDir   = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
+# 3. In Chocolatey scripts, ALWAYS use absolute paths - $toolsDir gets you to the package"s tools directory.
+$ErrorActionPreference = "Stop"; # stop on all errors
 # Internal packages (organizations) or software that has redistribution rights (community repo)
 # - Use `Install-ChocolateyInstallPackage` instead of `Install-ChocolateyPackage`
 #   and put the binaries directly into the tools folder (we call it embedding)
-#$fileLocation = Join-Path $toolsDir 'NAME_OF_EMBEDDED_INSTALLER_FILE'
+#$fileLocation = Join-Path $toolsDir "NAME_OF_EMBEDDED_INSTALLER_FILE"
 # If embedding binaries increase total nupkg size to over 1GB, use share location or download from urls
-#$fileLocation = '\\SHARE_LOCATION\to\INSTALLER_FILE'
+#$fileLocation = "\\SHARE_LOCATION\to\INSTALLER_FILE"
 # Community Repo: Use official urls for non-redist binaries or redist where total package size is over 200MB
 # Internal/Organization: Download from internal location (internet sources are unreliable)
-$url        = '' # download url, HTTPS preferred
-$url64      = '' # 64bit URL here (HTTPS preferred) or remove - if installer contains both (very rare), use $url
 
 $packageArgs = @{
   packageName   = $env:ChocolateyPackageName
-  unzipLocation = $toolsDir
-  fileType      = 'EXE_MSI_OR_MSU' #only one of these: exe, msi, msu
-  url           = $url
-  url64bit      = $url64
+  unzipLocation = "$(Split-Path -parent $MyInvocation.MyCommand.Definition)"
+  fileType      = "EXE_MSI_OR_MSU" #only one of these: exe, msi, msu
+  url           = "${url}"
+  url64bit      = "${url64bit}"
   #file         = $fileLocation
 
-  softwareName  = 'template*' #part or all of the Display Name as you see it in Programs and Features. It should be enough to be unique
+  softwareName  = "${softwareName}*" #part or all of the Display Name as you see it in Programs and Features. It should be enough to be unique
 
   # Checksums are now required as of 0.10.0.
-  # To determine checksums, you can get that from the original site if provided. 
-  # You can also use checksum.exe (choco install checksum) and use it 
+  # To determine checksums, you can get that from the original site if provided.
+  # You can also use checksum.exe (choco install checksum) and use it
   # e.g. checksum -t sha256 -f path\to\file
-  checksum      = ''
-  checksumType  = 'sha256' #default is md5, can also be sha1, sha256 or sha512
-  checksum64    = ''
-  checksumType64= 'sha256' #default is checksumType
+  checksum      = "${checksum}"
+  checksumType  = "${checksumType}" #default is md5, can also be sha1, sha256 or sha512
+  checksum64    = "${checksum64}"
+  checksumType64= "${checksumType64}" #default is checksumType
 
   # MSI
   silentArgs    = "/qn /norestart /l*v `"$($env:TEMP)\$($packageName).$($env:chocolateyPackageVersion).MsiInstall.log`"" # ALLUSERS=1 DISABLEDESKTOPSHORTCUT=1 ADDDESKTOPICON=0 ADDSTARTMENU=0
   validExitCodes= @(0, 3010, 1641)
   # OTHERS
   # Uncomment matching EXE type (sorted by most to least common)
-  #silentArgs   = '/S'           # NSIS
-  #silentArgs   = '/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-' # Inno Setup
-  #silentArgs   = '/s'           # InstallShield
-  #silentArgs   = '/s /v"/qn"'   # InstallShield with MSI
-  #silentArgs   = '/s'           # Wise InstallMaster
-  #silentArgs   = '-s'           # Squirrel
-  #silentArgs   = '-q'           # Install4j
-  #silentArgs   = '-s'           # Ghost
+  #silentArgs   = "/S"           # NSIS
+  #silentArgs   = "/VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-" # Inno Setup
+  #silentArgs   = "/s"           # InstallShield
+  #silentArgs   = "/s /v"/qn""   # InstallShield with MSI
+  #silentArgs   = "/s"           # Wise InstallMaster
+  #silentArgs   = "-s"           # Squirrel
+  #silentArgs   = "-q"           # Install4j
+  #silentArgs   = "-s"           # Ghost
   # Note that some installers, in addition to the silentArgs above, may also need assistance of AHK to achieve silence.
-  #silentArgs   = ''             # none; make silent with input macro script like AutoHotKey (AHK)
+  #silentArgs   = ""             # none; make silent with input macro script like AutoHotKey (AHK)
                                  #       https://chocolatey.org/packages/autohotkey.portable
   #validExitCodes= @(0) #please insert other valid exit codes here
 }
 
 Install-ChocolateyPackage @packageArgs # https://chocolatey.org/docs/helpers-install-chocolatey-package
 #Install-ChocolateyZipPackage @packageArgs # https://chocolatey.org/docs/helpers-install-chocolatey-zip-package
-## If you are making your own internal packages (organizations), you can embed the installer or 
-## put on internal file share and use the following instead (you'll need to add $file to the above)
+## If you are making your own internal packages (organizations), you can embed the installer or
+## put on internal file share and use the following instead (you"ll need to add $file to the above)
 #Install-ChocolateyInstallPackage @packageArgs # https://chocolatey.org/docs/helpers-install-chocolatey-install-package
 
 ## Main helper functions - these have error handling tucked into them already
@@ -83,12 +80,12 @@ Install-ChocolateyPackage @packageArgs # https://chocolatey.org/docs/helpers-ins
 ## downloader that the main helpers use to download items
 ## if removing $url64, please remove from here
 ## - https://chocolatey.org/docs/helpers-get-chocolatey-web-file
-#Get-ChocolateyWebFile $packageName 'DOWNLOAD_TO_FILE_FULL_PATH' $url $url64
+#Get-ChocolateyWebFile $packageName "DOWNLOAD_TO_FILE_FULL_PATH" $url $url64
 
 ## Installer, will assert administrative rights - used by Install-ChocolateyPackage
 ## use this for embedding installers in the package when not going to community feed or when you have distribution rights
 ## - https://chocolatey.org/docs/helpers-install-chocolatey-install-package
-#Install-ChocolateyInstallPackage $packageName $fileType $silentArgs '_FULLFILEPATH_' -validExitCodes $validExitCodes
+#Install-ChocolateyInstallPackage $packageName $fileType $silentArgs "_FULLFILEPATH_" -validExitCodes $validExitCodes
 
 ## Unzips a file to the specified location - auto overwrites existing content
 ## - https://chocolatey.org/docs/helpers-get-chocolatey-unzip
@@ -96,19 +93,19 @@ Install-ChocolateyPackage @packageArgs # https://chocolatey.org/docs/helpers-ins
 
 ## Runs processes asserting UAC, will assert administrative rights - used by Install-ChocolateyInstallPackage
 ## - https://chocolatey.org/docs/helpers-start-chocolatey-process-as-admin
-#Start-ChocolateyProcessAsAdmin 'STATEMENTS_TO_RUN' 'Optional_Application_If_Not_PowerShell' -validExitCodes $validExitCodes
+#Start-ChocolateyProcessAsAdmin "STATEMENTS_TO_RUN" "Optional_Application_If_Not_PowerShell" -validExitCodes $validExitCodes
 
 ## To avoid quoting issues, you can also assemble your -Statements in another variable and pass it in
 #$appPath = "$env:ProgramFiles\appname"
 ##Will resolve to C:\Program Files\appname
 #$statementsToRun = "/C `"$appPath\bin\installservice.bat`""
 #Start-ChocolateyProcessAsAdmin $statementsToRun cmd -validExitCodes $validExitCodes
-    
-## add specific folders to the path - any executables found in the chocolatey package 
-## folder will already be on the path. This is used in addition to that or for cases 
+
+## add specific folders to the path - any executables found in the chocolatey package
+## folder will already be on the path. This is used in addition to that or for cases
 ## when a native installer doesn't add things to the path.
 ## - https://chocolatey.org/docs/helpers-install-chocolatey-path
-#Install-ChocolateyPath 'LOCATION_TO_ADD_TO_PATH' 'User_OR_Machine' # Machine will assert administrative rights
+#Install-ChocolateyPath "LOCATION_TO_ADD_TO_PATH" "User_OR_Machine" # Machine will assert administrative rights
 
 ## Add specific files as shortcuts to the desktop
 ## - https://chocolatey.org/docs/helpers-install-chocolatey-shortcut
@@ -121,11 +118,11 @@ Install-ChocolateyPackage @packageArgs # https://chocolatey.org/docs/helpers-ins
 
 ## Set persistent Environment variables
 ## - https://chocolatey.org/docs/helpers-install-chocolatey-environment-variable
-#Install-ChocolateyEnvironmentVariable -variableName "SOMEVAR" -variableValue "value" [-variableType = 'Machine' #Defaults to 'User']
+#Install-ChocolateyEnvironmentVariable -variableName "SOMEVAR" -variableValue "value" [-variableType = "Machine" #Defaults to "User"]
 
 ## Set up a file association
 ## - https://chocolatey.org/docs/helpers-install-chocolatey-file-association
-#Install-ChocolateyFileAssociation 
+#Install-ChocolateyFileAssociation
 
 ## Adding a shim when not automatically found - Cocolatey automatically shims exe files found in package directory.
 ## - https://chocolatey.org/docs/helpers-install-bin-file
@@ -141,7 +138,7 @@ Install-ChocolateyPackage @packageArgs # https://chocolatey.org/docs/helpers-ins
 ## [DEPRECATING] PORTABLE EXAMPLE
 #$binRoot = Get-BinRoot
 #$installDir = Join-Path $binRoot "$packageName"
-#Write-Host "Adding `'$installDir`' to the path and the current shell path"
+#Write-Host "Adding `"$installDir`" to the path and the current shell path"
 #Install-ChocolateyPath "$installDir"
 #$env:Path = "$($env:Path);$installDir"
 
