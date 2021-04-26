@@ -1,6 +1,6 @@
 #addin nuget:?package=Cake.FileHelpers&version=4.0.1
 
-#load "cakes/PackageInfo.cs"
+#load "lib/PackageInfo.cs"
 
 ///////////////////////////////////////////////////////////////////////////////
 // ARGUMENTS
