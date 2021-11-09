@@ -14,9 +14,9 @@ var target = Argument("target", "Publish");
 
 Setup<PackageInfo>(setupContext => new PackageInfo
 {
-    PackageVersion = Argument("packageVersion", "0.0.1"),
-    Package32Url = Argument("url", "https://github.com/user/template/releases/download/release-v0.0.1/installer_x86.exe"),
-    Package64Url = Argument("url64bit", "https://github.com/user/template/releases/download/release-vv0.0.1/installer_x64.exe")
+    PackageVersion = Argument("packageVersion", "1.0.0-alpha"),
+    Package32Url = Argument("url", "https://github.com/mcmilk/wtime/releases/download/v1.0a/wtime-w32.exe"),
+    Package64Url = Argument("url64bit", "https://github.com/mcmilk/wtime/releases/download/v1.0a/wtime-w64.exe")
 });
 
 Teardown(ctx =>

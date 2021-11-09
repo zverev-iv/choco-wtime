@@ -18,30 +18,57 @@ public class PackageInfo
         get => new ChocolateyPackSettings
         {
             //PACKAGE SPECIFIC SECTION
-            Id = "template",
-            Version = "0.0.1",
-            PackageSourceUrl = new Uri("https://github.com/user/choco-template/"),
+            Id = "wtime",
+            Version = "1.0.0-alpha",
+            PackageSourceUrl = new Uri("https://github.com/zverev-iv/choco-wtime/"),
             Owners = new[] {
-                "Contoso"
+                "zverev-iv"
                 },
             //SOFTWARE SPECIFIC SECTION
-            Title = "Template",
+            Title = "Wtime",
             Authors = new[] {
-                "Authors"
+                "Tino Reichardt"
                 },
-            Copyright = "year, Company",
-            ProjectUrl = new Uri("https://template.com"),
-            ProjectSourceUrl = new Uri("https://github.com/user/template/"),
-            IconUrl = new Uri("http://cdn.rawgit.com/user/template/master/icons/template.png"),
-            DocsUrl = new Uri("https://github.com/user/template/blob/master/README.md"),
-            BugTrackerUrl = new Uri("https://github.com/user/template/"),
-            MailingListUrl = new Uri("https://github.com/user/template/"),
-            LicenseUrl = new Uri("https://github.com/user/template/blob/master/LICENSE.md"),
+            Copyright = "2021, Tino Reichardt",
+            ProjectUrl = new Uri("https://github.com/mcmilk/wtime"),
+            DocsUrl = new Uri("https://raw.githubusercontent.com/mcmilk/wtime/master/README.md"),
+            BugTrackerUrl = new Uri("https://github.com/mcmilk/wtime/issues"),
             RequireLicenseAcceptance = false,
-            Summary = "Excellent summary of what the package does",
-            Description = "The description of the package",
+            Summary = "Windows Benchmark Tool",
+            Description = @"The program will start COMMAND with the given OPTIONS and print out some statistic of it to stderr.
+
+Sample output:
+
+```cmd
+ommand: 7z a silesia.7z -mmt=off -mx15 silesia
+
+TIMES in milliseconds
+RunningTime................. 32104
+UserTime.................... 31793
+KernelTime.................. 249
+
+MEMORY in KiB
+PageFaultCount.............. 112
+PeakWorkingSetSize.......... 34856
+WorkingSetSize.............. 20
+QuotaPeakPagedPoolUsage..... 85
+QuotaPagedPoolUsage......... 0
+QuotaPeakNonPagedPoolUsage.. 6
+QuotaNonPagedPoolUsage...... 0
+PagefileUsage............... 0
+PeakPagefileUsage........... 36296
+
+IO count
+ReadOperationCount.......... 81
+WriteOperationCount......... 34
+OtherOperationCount......... 115
+ReadTransferCount........... 211939037
+WriteTransferCount.......... 58043652
+OtherTransferCount.......... 3414
+```
+            ",
             ReleaseNotes = new[] {
-                "https://github.com/user/template/releases"
+                "https://github.com/mcmilk/wtime/releases"
                 },
             Files = new[] {
                 new ChocolateyNuSpecContent {
@@ -50,9 +77,14 @@ public class PackageInfo
                     }
                 },
             Tags = new[] {
-                "Cake",
-                "Script",
-                "Build"
+                "Windows",
+                "Benchmark",
+                "cli",
+                "RunningTime",
+                "KernelTime",
+                "time",
+                "memory",
+                "io"
                 },
 
             //Cake internal settings

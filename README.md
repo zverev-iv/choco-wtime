@@ -1,8 +1,8 @@
-# choco-template
+# choco-wtime
 
 ![Version](https://img.shields.io/badge/version-0.0.1-blue.svg?cacheSeconds=2592000) [![License: Unlicense](https://img.shields.io/badge/License-Unlicense-yellow.svg)](https://raw.githubusercontent.com/zverev-iv/choco-template/main/LICENSE)
 
-> Simple chocolatey package template with cakebuild.net support
+> Simple chocolatey package for wtime with cakebuild.net support
 
 ## Author
 
