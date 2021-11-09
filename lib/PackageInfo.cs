@@ -40,7 +40,7 @@ public class PackageInfo
 Sample output:
 
 ```cmd
-ommand: 7z a silesia.7z -mmt=off -mx15 silesia
+command: 7z a silesia.7z -mmt=off -mx15 silesia
 
 TIMES in milliseconds
 RunningTime................. 32104
